@@ -17,6 +17,11 @@ public class Talk extends Task{
         this.location = location;
         this.chatOptions = chatOptions;
     }
+    public Talk(APIContext ctx, int id, Area location) {
+        super(ctx);
+        new Talk(ctx, id, location, new String[] {});
+    }
+
 
     @Override
     public void run() {
@@ -61,7 +66,7 @@ public class Talk extends Task{
     protected String getBestDialogOption(String[] dialogOptions){
         for(String chat : dialogOptions){
             for(WidgetChild option : ctx.dialogues().getOptions()){
-                if(option.getText().equals(chat)){
+                if(option.getText().contains(chat)){
                     return chat;
                 }
             }

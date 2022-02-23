@@ -13,6 +13,8 @@ public class GoblinDiplomacy extends Quest{
         requiredItems.put("Orange goblin mail", 1);
         requiredItems.put("Goblin mail", 1);
         requiredItems.put("Blue goblin mail", 1);
+
+        setupSteps();
     }
 
     private void setupSteps() {
