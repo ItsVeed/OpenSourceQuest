@@ -22,7 +22,12 @@ public class Main extends LoopScript {
     @Override
     protected int loop() {
         if (currentQuest == null) {
-            currentQuest = Arrays.stream(quests).filter(e -> e.doQuest == true).findFirst();
+            Optional<Quest> q = Arrays.stream(quests).filter(e -> e.doQuest == true).findFirst();
+            if (q.get() == null) {
+                ctx.script().stop("All quests have been completed.");
+            } else {
+                currentQuest = q;
+            }
         } else {
             currentQuest.get().main();
         }

@@ -8,6 +8,8 @@ public class RomeoAndJuliet extends Quest{
     public RomeoAndJuliet(APIContext ctx) {
         super(ctx);
 
+        name = "Romeo and juliet";
+
         requiredItems.put("Cadava berries", 1);
 
         setupSteps();

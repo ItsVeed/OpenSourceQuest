@@ -9,6 +9,8 @@ public class GoblinDiplomacy extends Quest{
     public GoblinDiplomacy(APIContext ctx) {
         super(ctx);
 
+        name = "Goblin diplomacy";
+
         // Need to make a way to craft these using the steps
         requiredItems.put("Orange goblin mail", 1);
         requiredItems.put("Goblin mail", 1);

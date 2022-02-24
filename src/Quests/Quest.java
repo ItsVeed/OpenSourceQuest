@@ -13,6 +13,7 @@ public class Quest {
     IQuestAPI.Quest quest;
     HashMap<String, Integer> requiredItems;
     public boolean doQuest = false;
+    public String name;
 
     public Quest(APIContext ctx) {this.ctx = ctx;}
 
