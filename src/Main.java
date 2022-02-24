@@ -7,21 +7,22 @@ import com.epicbot.api.shared.script.LoopScript;
 import com.epicbot.api.shared.script.ScriptManifest;
 import data.Vars;
 
-import java.util.Arrays;
-import java.util.Optional;
-
-@ScriptManifest(name="name", gameType = GameType.OS)
+@ScriptManifest(name="Quester", gameType = GameType.OS)
 public class Main extends LoopScript {
     public static APIContext ctx;
     
     @Override
     protected int loop() {
+
+
         if (Vars.currentQuest == null) {
-            Optional<Quest> q = Arrays.stream(Vars.quests).filter(e -> e.doQuest == true).findFirst();
-            if (!q.isPresent()) {
-                ctx.script().stop("All quests have been completed.");
-            } else {
-                Vars.currentQuest = q.get();
+            for (int i=0; i < Vars.quests.length; i++) {
+                if (Vars.quests[i].getDoQuest() == true) {
+                    Vars.currentQuest = Vars.quests[i];
+                }
+            }
+            if (Vars.currentQuest == null) {
+                ctx.script().stop("Completed all quests.");
             }
         } else {
             Vars.currentQuest.main();
@@ -32,13 +33,19 @@ public class Main extends LoopScript {
 
     @Override
     public boolean onStart(String... strings) {
-        GoblinDiplomacy.doQuest = true;
+        System.out.println("Staring quester.");
+
+        ctx = getAPIContext();
 
         Vars.quests = new Quest[]
                 {
                         new RomeoAndJuliet(ctx),
                         new GoblinDiplomacy(ctx),
                 };
+
+        Vars.quests[0].setDoQuest(true);
+        Vars.quests[1].setDoQuest(true);
+        Vars.quests[2].setDoQuest(true);
 
         return true;
     }

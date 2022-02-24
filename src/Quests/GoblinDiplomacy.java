@@ -13,10 +13,9 @@ public class GoblinDiplomacy extends Quest{
 
         name = "Goblin diplomacy";
 
-        // Need to make a way to craft these using the steps
-        requiredItems.put("Orange dye", 1);
-        requiredItems.put("Goblin mail", 3);
-        requiredItems.put("Blue dye", 1);
+        this.requiredItems.put("Orange dye", 1);
+        this.requiredItems.put("Goblin mail", 3);
+        this.requiredItems.put("Blue dye", 1);
 
         setupSteps();
     }

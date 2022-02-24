@@ -17,13 +17,21 @@ public class Quest {
 
     // Quest info
     IQuestAPI.Quest quest;
-    HashMap<String, Integer> requiredItems;
+    HashMap<String, Integer> requiredItems = new HashMap<>();
     // End
 
     // Public vars
-    public static boolean doQuest = false;
+    public boolean doQuest = false;
     public String name;
     // End
+
+    public boolean getDoQuest() {
+        return doQuest;
+    }
+
+    public void setDoQuest(boolean x) {
+        doQuest = x;
+    }
 
     // Constructor
     public Quest(APIContext ctx) {
@@ -44,6 +52,7 @@ public class Quest {
         if (inCutscene()) {
             cutscene();
         } else if (ctx.quests().isCompleted(quest)) {
+            setDoQuest(false);
             Vars.currentQuest = null;
         } else {
             int currentKey = getStage(quest);

@@ -3,15 +3,17 @@ package Quests;
 import Tasks.GetRequiredItems;
 import Tasks.Talk;
 import com.epicbot.api.shared.APIContext;
+import com.epicbot.api.shared.methods.IQuestAPI;
 import com.epicbot.api.shared.model.Area;
 
 public class RomeoAndJuliet extends Quest{
     public RomeoAndJuliet(APIContext ctx) {
         super(ctx);
 
+        quest = IQuestAPI.Quest.ROMEO_AND_JULIET;
         name = "Romeo and juliet";
 
-        requiredItems.put("Cadava berries", 1);
+        this.requiredItems.put("Cadava berries", 1);
 
         setupSteps();
     }
