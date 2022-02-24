@@ -1,5 +1,6 @@
 package Quests;
 
+import Tasks.GetRequiredItems;
 import Tasks.GiveItem;
 import Tasks.InteractItem;
 import Tasks.Talk;
@@ -23,6 +24,7 @@ public class GoblinDiplomacy extends Quest{
     private void setupSteps() {
         Area General_Hut =(new Area(2956, 3513, 2959, 3510));
 
+        addStep(0, new GetRequiredItems(ctx, requiredItems));
         addStep(0, new InteractItem(ctx, 1767, "Use").combine(288));
         addStep(0, new InteractItem(ctx, 1769, "Use").combine(288));
         addStep(0, new Talk(ctx, 669, new String[] {"Yes, Wartface looks fat", "Do you want me to pick an armour colour for you?",

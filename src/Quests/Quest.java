@@ -1,9 +1,11 @@
 package Quests;
 
+import Tasks.GetRequiredItems;
 import Tasks.Task;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.methods.IQuestAPI;
 import com.epicbot.api.shared.util.time.Time;
+import data.Vars;
 
 
 import java.util.HashMap;
@@ -19,12 +21,14 @@ public class Quest {
     // End
 
     // Public vars
-    public boolean doQuest = false;
+    public static boolean doQuest = false;
     public String name;
     // End
 
     // Constructor
-    public Quest(APIContext ctx) {this.ctx = ctx;}
+    public Quest(APIContext ctx) {
+        this.ctx = ctx;
+    }
     // End
 
     // Step management
@@ -39,6 +43,8 @@ public class Quest {
     public void main() {
         if (inCutscene()) {
             cutscene();
+        } else if (ctx.quests().isCompleted(quest)) {
+            Vars.currentQuest = null;
         } else {
             int currentKey = getStage(quest);
             Task currentTask = steps.get(getStage(quest));
@@ -49,38 +55,6 @@ public class Quest {
     }
     // End
 
-    // Item methods
-
-    boolean gotItems = false;
-    public void getItems() {
-        for (String i : requiredItems.keySet()) {
-            if (ctx.inventory().getCount(i) != requiredItems.get(i)) {
-                withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
-            }
-        }
-        if (ctx.inventory().containsAll(String.valueOf(requiredItems.keySet()))) {
-            gotItems = true;
-        }
-    }
-
-    public void withdraw(String item, int amount) {
-        if (ctx.bank().isReachable()) {
-            ctx.camera();
-            if (ctx.bank().isOpen()) {
-                Time.sleep(200 - 50, 200 + 50);
-                if (ctx.bank().contains(item)) {
-                    ctx.bank().withdraw(amount, item);
-                } else {
-                    ctx.script().stop("You don't have " + item + " in your bank.");
-                }
-            } else if (!ctx.bank().isOpen()) {
-                ctx.bank().open();
-                Time.sleep(200, () -> ctx.bank().isOpen(), 1_000);
-            }
-        } else  if (!ctx.bank().isReachable()) {
-            ctx.webWalking().walkToBank();
-        }
-    }
     // End
 
     // Stage methods
