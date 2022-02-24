@@ -35,7 +35,7 @@ public class GiveItem extends Task{
                 Time.sleep(100, () -> ctx.dialogues().isDialogueOpen());
             }
         } else {
-            ctx.webWalking().walkTo(location.getCentralTile());
+            walk(location);
         }
     }
 }

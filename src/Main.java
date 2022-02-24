@@ -1,6 +1,7 @@
 import Quests.GoblinDiplomacy;
 import Quests.Quest;
 import Quests.RomeoAndJuliet;
+import Quests.XMarksTheSpot;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.GameType;
 import com.epicbot.api.shared.script.LoopScript;
@@ -41,11 +42,10 @@ public class Main extends LoopScript {
                 {
                         new RomeoAndJuliet(ctx),
                         new GoblinDiplomacy(ctx),
+                        new XMarksTheSpot(ctx),
                 };
 
-        Vars.quests[0].setDoQuest(true);
         Vars.quests[1].setDoQuest(true);
-        Vars.quests[2].setDoQuest(true);
 
         return true;
     }

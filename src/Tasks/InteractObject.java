@@ -41,7 +41,7 @@ public class InteractObject extends Task{
             }
             Time.sleep(1_000, () -> !ctx.localPlayer().isAnimating() && !ctx.localPlayer().isMoving(), 3_000);
         } else {
-            ctx.webWalking().walkTo(location.getCentralTile());
+            walk(location);
         }
     }
 
@@ -58,7 +58,7 @@ public class InteractObject extends Task{
             }
             Time.sleep(1_000, () -> !ctx.localPlayer().isAnimating() && !ctx.localPlayer().isMoving(), 3_000);
         } else {
-            ctx.webWalking().walkTo(tile);
+            walk(tile);
         }
     }
 }

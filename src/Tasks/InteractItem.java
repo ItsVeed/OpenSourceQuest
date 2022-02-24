@@ -46,7 +46,7 @@ public class InteractItem extends Task{
                     y.click();
                 }
             }
-            Time.sleep(1_000, () -> !ctx.localPlayer().isAnimating() && !ctx.localPlayer().isMoving(), 3_000);
+            Time.sleep(5_000, () -> !ctx.localPlayer().isAnimating() && !ctx.localPlayer().isMoving(), 3_000);
         }
     }
 
@@ -54,7 +54,7 @@ public class InteractItem extends Task{
         if (location.contains(ctx.localPlayer().getLocation())) {
 
         } else {
-            ctx.webWalking().walkTo(location.getCentralTile());
+            walk(location);
         }
     }
 
@@ -65,7 +65,7 @@ public class InteractItem extends Task{
                 Time.sleep(1_000, () -> !ctx.localPlayer().isAnimating() && !ctx.localPlayer().isMoving(), 3_000);
             }
         } else {
-            ctx.webWalking().walkTo(tile);
+            walk(tile);
         }
     }
 }

@@ -17,10 +17,10 @@ public class PickupItem extends Task{
 
     @Override
     public boolean run() {
-        pickupItem(location, id);
         if (ctx.inventory().contains(id)) {
             return true;
         } else {
+            pickupItem(location, id);
             return false;
         }
 
@@ -36,7 +36,7 @@ public class PickupItem extends Task{
                 Time.sleep(1_000, () -> ctx.inventory().contains(item), 1_000);
             }
         } else if (!location.contains(ctx.localPlayer().getLocation())) {
-            ctx.webWalking().walkTo(location.getCentralTile());
+            walk(location);
         }
     }
 }

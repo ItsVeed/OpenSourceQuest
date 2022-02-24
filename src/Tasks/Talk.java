@@ -4,6 +4,7 @@ import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.entity.NPC;
 import com.epicbot.api.shared.entity.WidgetChild;
 import com.epicbot.api.shared.model.Area;
+import com.epicbot.api.shared.model.Tile;
 import com.epicbot.api.shared.util.time.Time;
 
 public class Talk extends Task{
@@ -20,14 +21,14 @@ public class Talk extends Task{
     public Talk(APIContext ctx, int id, String[] chatOptions) {
         super(ctx);
         this.id = id;
-        this.location = location;
         this.chatOptions = chatOptions;
     }
 
     //Overload
     public Talk(APIContext ctx, int id) {
         super(ctx);
-        new Talk(ctx, id, new String[] {});
+        this.id = id;
+        this.chatOptions = new String[] {};
     }
 
     // End
@@ -36,8 +37,12 @@ public class Talk extends Task{
 
     @Override
     public boolean run() {
-        talkTo(id, location, chatOptions);
-        return true;
+        if (tile != null) {
+            talkTo(id, tile, chatOptions);
+        } else if (location != null) {
+            talkTo(id, location, chatOptions);
+        }
+        return false;
     }
 
     // End
@@ -56,8 +61,9 @@ public class Talk extends Task{
             }
             return;
         }
-        if (!ctx.npcs().query().id(id).results().isEmpty()) {
-            NPC n = ctx.npcs().query().id(id).results().nearest();
+        NPC n = ctx.npcs().query().id(id).results().nearest();
+        System.out.println(n);
+        if (n != null) {
             if (n != null) {
                 if (!n.isVisible()) {
                     ctx.camera().turnTo(n);
@@ -66,7 +72,36 @@ public class Talk extends Task{
                 Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 1_000);
             }
         } else {
-            ctx.webWalking().walkTo(location.getCentralTile());
+            walk(location);
+        }
+    }
+
+    public void talkTo(int id, Tile tile, String[] chatOptions) {
+        if (ctx.dialogues().isDialogueOpen()) {
+            if (ctx.dialogues().canContinue()) {
+                ctx.dialogues().selectContinue();
+                Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 4_000);
+            }
+            if (ctx.dialogues().getOptions() != null) {
+                handleOptions(chatOptions);
+                Time.sleep(100);
+            }
+            return;
+        }
+
+        NPC n = ctx.npcs().query().id(id).results().nearest();
+        System.out.println(n);
+        System.out.println(id);
+        if (n != null) {
+            if (n != null) {
+                if (!n.isVisible()) {
+                    ctx.camera().turnTo(n);
+                }
+                n.interact("Talk-to");
+                Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 1_000);
+            }
+        } else {
+            walk(tile);
         }
     }
 

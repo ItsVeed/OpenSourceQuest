@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class GetRequiredItems extends Task{
     HashMap<String, Integer> requiredItems;
+    boolean bypass = false;
 
     public GetRequiredItems(APIContext ctx, HashMap<String, Integer> requiredItems) {
         super(ctx);
@@ -19,16 +20,35 @@ public class GetRequiredItems extends Task{
     }
 
     public boolean getItems() {
-        for (String i : requiredItems.keySet()) {
-            if (ctx.inventory().getCount(i) != requiredItems.get(i)) {
-                withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
-            }
-        }
-        if (ctx.inventory().containsAll(String.valueOf(requiredItems.keySet()))) {
+        if (bypass) {
             return true;
         } else {
-            return false;
+            for (String i : requiredItems.keySet()) {
+                if (ctx.inventory().getCount(i) != requiredItems.get(i)) {
+                    withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
+                }
+            }
+            if (hasAllItems(requiredItems)) {
+                return true;
+            } else {
+                return false;
+            }
         }
+    }
+
+    public Task bypass(HashMap<String, Integer> items) {
+        bypass = hasAllItems(items);
+        return this;
+    }
+
+    private boolean hasAllItems(HashMap<String, Integer> items) {
+        boolean missingItem = false;
+        for (String i : items.keySet()) {
+            if (ctx.inventory().getCount(i) < items.get(i)) {
+                missingItem = true;
+            }
+        }
+        return missingItem;
     }
 
     public void withdraw(String item, int amount) {

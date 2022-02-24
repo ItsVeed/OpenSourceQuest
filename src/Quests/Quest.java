@@ -1,13 +1,12 @@
 package Quests;
 
-import Tasks.GetRequiredItems;
 import Tasks.Task;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.methods.IQuestAPI;
-import com.epicbot.api.shared.util.time.Time;
 import data.Vars;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Quest {
@@ -41,13 +40,16 @@ public class Quest {
 
     // Step management
 
+    HashMap<Integer, Task> preSteps = new HashMap<>();
     HashMap<Integer, Task> steps = new HashMap<>();
 
+    public void addPreStep(int i, Task task) {preSteps.put(i, task);}
     public void addStep(int i, Task task) {steps.put(i, task);}
     // End
 
     // Execute steps
 
+    Collection<Task> currentTasks = preSteps.values();
     public void main() {
         if (inCutscene()) {
             cutscene();
@@ -55,16 +57,24 @@ public class Quest {
             setDoQuest(false);
             Vars.currentQuest = null;
         } else {
-            int currentKey = getStage(quest);
-            Task currentTask = steps.get(getStage(quest));
-            if (currentTask.run()) {
-                steps.remove(currentKey);
+            if (!preSteps.isEmpty()) {
+                Task currentTask = currentTasks.iterator().next();
+                System.out.println(currentTask);
+                if (currentTask.run()) {
+                    currentTasks.remove(currentTask);
+                }
+            } else {
+                Task currentTask = steps.get(getStage(quest));
+                System.out.println(currentTask);
+                currentTask.run();
             }
         }
     }
     // End
 
-    // End
+
+    
+
 
     // Stage methods
     private void cutscene() {

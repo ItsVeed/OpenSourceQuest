@@ -13,6 +13,7 @@ public class Task {
 
     // Task vars
 
+    Boolean localWalker = false;
     Area location = null;
     Tile tile = null;
 
@@ -32,6 +33,33 @@ public class Task {
     }
 
     // End
+
+
+    // Walking
+
+    public void walk(Area x) {
+        if (localWalker) {
+            ctx.walking().walkTo(x.getCentralTile());
+        } else {
+            ctx.webWalking().walkTo(x.getCentralTile());
+        }
+    }
+
+    public void walk(Tile x) {
+        if (localWalker) {
+            ctx.walking().walkTo(x);
+        } else {
+            ctx.webWalking().walkTo(x);
+        }
+    }
+
+    public Task localWalker() {
+        localWalker = true;
+        return this;
+    }
+
+    // End
+
 
     // Var methods
 
