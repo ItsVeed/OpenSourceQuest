@@ -6,20 +6,19 @@ import com.epicbot.api.shared.model.Area;
 import com.epicbot.api.shared.util.time.Time;
 
 public class GiveItem extends Task{
-    Area location;
     int npcId;
     String item;
 
 
-    public GiveItem(APIContext ctx, Area locaton, int npcId, String item) {
+    public GiveItem(APIContext ctx,int npcId, String item) {
         super(ctx);
-        this.location = locaton;
         this.npcId = npcId;
         this.item = item;
     }
 
-    @Override public void run() {
-
+    @Override public boolean run() {
+        giveItem();
+        return true;
     }
 
     private void giveItem() {

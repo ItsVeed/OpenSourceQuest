@@ -40,8 +40,11 @@ public class Quest {
         if (inCutscene()) {
             cutscene();
         } else {
+            int currentKey = getStage(quest);
             Task currentTask = steps.get(getStage(quest));
-            currentTask.run();
+            if (currentTask.run()) {
+                steps.remove(currentKey);
+            }
         }
     }
     // End

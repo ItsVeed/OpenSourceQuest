@@ -11,14 +11,13 @@ public class Talk extends Task{
     // Task vars
 
     int id;
-    Area location;
     String[] chatOptions;
 
     // End
 
     // Constuctor
 
-    public Talk(APIContext ctx, int id, Area location, String[] chatOptions) {
+    public Talk(APIContext ctx, int id, String[] chatOptions) {
         super(ctx);
         this.id = id;
         this.location = location;
@@ -26,9 +25,9 @@ public class Talk extends Task{
     }
 
     //Overload
-    public Talk(APIContext ctx, int id, Area location) {
+    public Talk(APIContext ctx, int id) {
         super(ctx);
-        new Talk(ctx, id, location, new String[] {});
+        new Talk(ctx, id, new String[] {});
     }
 
     // End
@@ -36,8 +35,9 @@ public class Talk extends Task{
     // Main method
 
     @Override
-    public void run() {
+    public boolean run() {
         talkTo(id, location, chatOptions);
+        return true;
     }
 
     // End

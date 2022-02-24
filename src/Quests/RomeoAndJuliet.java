@@ -21,12 +21,12 @@ public class RomeoAndJuliet extends Quest{
         Area church = new Area(3253, 3483, 3256, 3480);
         Area potionShop = new Area(3193, 3405, 3197, 3403);
 
-        addStep(0, new Talk(ctx, 5037, varrockSquare, new String[] {"Perhaps I could", "Yes", "Ok, thanks"}));
-        addStep(10, new Talk(ctx, 5035, balcony));
-        addStep(20, new Talk(ctx, 5037, varrockSquare, new String[] {"Ok, thanks"}));
-        addStep(30, new Talk(ctx, 5038, church));
-        addStep(40, new Talk(ctx, 5036, potionShop, new String[] {"Talk about something else.", "Talk about Romeo"}));
-        addStep(50, new Talk(ctx, 5035, balcony));
-        addStep(60, new Talk(ctx, 5037, varrockSquare));
+        addStep(0, new Talk(ctx, 5037, new String[] {"Perhaps I could", "Yes", "Ok, thanks"}).setArea(varrockSquare));
+        addStep(10, new Talk(ctx, 5035).setArea(balcony));
+        addStep(20, new Talk(ctx, 5037, new String[] {"Ok, thanks"}).setArea(varrockSquare));
+        addStep(30, new Talk(ctx, 5038).setArea(church));
+        addStep(40, new Talk(ctx, 5036, new String[] {"Talk about something else.", "Talk about Romeo"}).setArea(potionShop));
+        addStep(50, new Talk(ctx, 5035).setArea(balcony));
+        addStep(60, new Talk(ctx, 5037).setArea(varrockSquare));
     }
 }
