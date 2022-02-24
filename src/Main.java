@@ -17,19 +17,19 @@ public class Main extends LoopScript {
                     new RomeoAndJuliet(ctx),
                     new GoblinDiplomacy(ctx),
             };
-    public Optional<Quest> currentQuest = null;
+    public Quest currentQuest = null;
     
     @Override
     protected int loop() {
-        if (currentQuest == null) {
+        if (currentQuest != null) {
             Optional<Quest> q = Arrays.stream(quests).filter(e -> e.doQuest == true).findFirst();
-            if (q.get() == null) {
+            if (!q.isPresent()) {
                 ctx.script().stop("All quests have been completed.");
             } else {
-                currentQuest = q;
+                currentQuest = q.get();
             }
         } else {
-            currentQuest.get().main();
+            currentQuest.main();
         }
 
         return 0;

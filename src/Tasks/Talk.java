@@ -7,9 +7,16 @@ import com.epicbot.api.shared.model.Area;
 import com.epicbot.api.shared.util.time.Time;
 
 public class Talk extends Task{
+
+    // Task vars
+
     int id;
     Area location;
     String[] chatOptions;
+
+    // End
+
+    // Constuctor
 
     public Talk(APIContext ctx, int id, Area location, String[] chatOptions) {
         super(ctx);
@@ -17,16 +24,23 @@ public class Talk extends Task{
         this.location = location;
         this.chatOptions = chatOptions;
     }
+
+    //Overload
     public Talk(APIContext ctx, int id, Area location) {
         super(ctx);
         new Talk(ctx, id, location, new String[] {});
     }
 
+    // End
+
+    // Main method
 
     @Override
     public void run() {
         talkTo(id, location, chatOptions);
     }
+
+    // End
 
     // Dialogue methods
 
@@ -73,4 +87,6 @@ public class Talk extends Task{
         }
         return null;
     }
+
+    // End
 }

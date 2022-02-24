@@ -9,19 +9,30 @@ import com.epicbot.api.shared.util.time.Time;
 import java.util.HashMap;
 
 public class Quest {
+    // Context
     APIContext ctx;
+    // End
+
+    // Quest info
     IQuestAPI.Quest quest;
     HashMap<String, Integer> requiredItems;
+    // End
+
+    // Public vars
     public boolean doQuest = false;
     public String name;
+    // End
 
+    // Constructor
     public Quest(APIContext ctx) {this.ctx = ctx;}
+    // End
 
     // Step management
 
     HashMap<Integer, Task> steps = new HashMap<>();
 
     public void addStep(int i, Task task) {steps.put(i, task);}
+    // End
 
     // Execute steps
 
@@ -33,6 +44,9 @@ public class Quest {
             currentTask.run();
         }
     }
+    // End
+
+    // Item methods
 
     boolean gotItems = false;
     public void getItems() {
@@ -46,7 +60,6 @@ public class Quest {
         }
     }
 
-    // Item methods
     public void withdraw(String item, int amount) {
         if (ctx.bank().isReachable()) {
             ctx.camera();
@@ -65,6 +78,7 @@ public class Quest {
             ctx.webWalking().walkToBank();
         }
     }
+    // End
 
     // Stage methods
     private void cutscene() {
