@@ -39,8 +39,11 @@ public class Task {
     // Main method
 
     public boolean main() {
-        getItems();
-        return run();
+         if (getItems()) {
+             return run();
+         } else {
+             return false;
+         }
     }
 
     public Task setRequiredItems(HashMap<String, Integer> requiredItems) {
@@ -51,15 +54,11 @@ public class Task {
     private boolean getItems() {
         {
             for (String i : requiredItems.keySet()) {
-                if (ctx.inventory().getCount(i) != requiredItems.get(i)) {
+                if (ctx.inventory().getCount(i) < requiredItems.get(i)) {
                     withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
                 }
             }
-            if (hasAllItems(requiredItems)) {
-                return true;
-            } else {
-                return false;
-            }
+            return !hasAllItems(requiredItems);
         }
     }
 
@@ -87,7 +86,7 @@ public class Task {
                 ctx.bank().open();
                 Time.sleep(200, () -> ctx.bank().isOpen(), 1_000);
             }
-        } else  if (!ctx.bank().isReachable()) {
+        } else {
             ctx.webWalking().walkToBank();
         }
     }
