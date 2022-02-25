@@ -27,11 +27,15 @@ public class RomeoAndJuliet extends Quest{
         HashMap<String, Integer> items = new HashMap<>();
         items.put("Cadava berries", 1);
 
-        addStep(new Talk(ctx, 0, 5037, new String[] {"Perhaps I could", "Yes", "Ok, thanks"}).setArea(varrockSquare).setRequiredItems(items));
+        HashMap<String, Integer> bypassItems = new HashMap<>();
+        items.put("Cadava potion", 1);
+
+        addStep(new Talk(ctx, 0, 5037, new String[] {"Perhaps I could help to find her for you?", "Yes.", "Ok, thanks"}).setArea(varrockSquare).setRequiredItems(items));
         addStep( new Talk(ctx, 10, 5035).setArea(balcony));
         addStep( new Talk(ctx, 20, 5037, new String[] {"Ok, thanks"}).setArea(varrockSquare));
         addStep(new Talk(ctx, 30, 5038).setArea(church));
-        addStep(new Talk(ctx, 40, 5036, new String[] {"Talk about something else.", "Talk about Romeo"}).setArea(potionShop).setRequiredItems(items));
+        addStep(new Talk(ctx, 40, 5036, new String[] {"Talk about something else.", "Talk about Romeo & Juliet."}).setArea(potionShop).setRequiredItems(items));
+        addStep(new Talk(ctx, 50, 5036, new String[] {"Talk about something else.", "Talk about Romeo & Juliet."}).setArea(potionShop).setRequiredItems(items).skipIfHasItems(bypassItems));
         addStep(new Talk(ctx, 50, 5035).setArea(balcony));
         addStep(new Talk(ctx, 60, 5037).setArea(varrockSquare));
     }

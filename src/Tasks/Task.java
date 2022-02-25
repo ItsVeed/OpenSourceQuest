@@ -21,6 +21,7 @@ public class Task {
 
     HashMap<String, Integer> requiredItems = new HashMap<>();
     boolean bypass = false;
+    boolean skip = false;
 
     boolean localWalker = false;
     Area location = null;
@@ -40,11 +41,13 @@ public class Task {
     // Main method
 
     public boolean main() {
-         if (getItems()) {
+        if (skip) {
+            return true;
+        } else if (getItems()) {
              return run();
-         } else {
+        } else {
              return false;
-         }
+        }
     }
 
     public Task setRequiredItems(HashMap<String, Integer> requiredItems) {
@@ -57,17 +60,22 @@ public class Task {
         return this;
     }
 
+    public Task skipIfHasItems(HashMap<String, Integer> items) {
+        skip = !missingItems(items);
+        return this;
+    }
+
     public boolean getItems() {
-        if (bypass) {
-            return true;
-        } else {
-            for (String i : requiredItems.keySet()) {
-                if (ctx.inventory().getCount(i) < requiredItems.get(i)) {
-                    withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
+            if (bypass) {
+                return true;
+            } else {
+                for (String i : requiredItems.keySet()) {
+                    if (ctx.inventory().getCount(i) < requiredItems.get(i)) {
+                        withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
+                    }
                 }
+                return !missingItems(requiredItems);
             }
-            return !missingItems(requiredItems);
-        }
     }
 
     private boolean missingItems(HashMap<String, Integer> items) {
