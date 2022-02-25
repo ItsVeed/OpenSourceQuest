@@ -45,7 +45,9 @@ public class Main extends LoopScript {
                         new XMarksTheSpot(ctx),
                 };
 
+        Vars.quests[0].setDoQuest(true);
         Vars.quests[1].setDoQuest(true);
+        Vars.quests[2].setDoQuest(true);
 
         return true;
     }

@@ -3,6 +3,9 @@ package Tasks;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.model.Area;
 import com.epicbot.api.shared.model.Tile;
+import com.epicbot.api.shared.util.time.Time;
+
+import java.util.HashMap;
 
 public class Task {
     // Context
@@ -11,9 +14,14 @@ public class Task {
 
     // End
 
+    public boolean stageCheck = false;
+    public int stage;
+
     // Task vars
 
-    Boolean localWalker = false;
+    HashMap<String, Integer> requiredItems = new HashMap<>();
+
+    boolean localWalker = false;
     Area location = null;
     Tile tile = null;
 
@@ -21,11 +29,68 @@ public class Task {
 
     //Constructor
 
-    public Task(APIContext ctx) {this.ctx = ctx;}
+    public Task(APIContext ctx, int stage) {
+        this.ctx = ctx;
+        setStageCheck(stage);
+    }
 
     // End
 
     // Main method
+
+    public boolean main() {
+        getItems();
+        return run();
+    }
+
+    public Task setRequiredItems(HashMap<String, Integer> requiredItems) {
+        this.requiredItems = requiredItems;
+        return this;
+    }
+
+    private boolean getItems() {
+        {
+            for (String i : requiredItems.keySet()) {
+                if (ctx.inventory().getCount(i) != requiredItems.get(i)) {
+                    withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
+                }
+            }
+            if (hasAllItems(requiredItems)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private boolean hasAllItems(HashMap<String, Integer> items) {
+        boolean missingItem = false;
+        for (String i : items.keySet()) {
+            if (ctx.inventory().getCount(i) < items.get(i)) {
+                missingItem = true;
+            }
+        }
+        return missingItem;
+    }
+
+    private void withdraw(String item, int amount) {
+        if (ctx.bank().isReachable()) {
+            ctx.camera();
+            if (ctx.bank().isOpen()) {
+                Time.sleep(200 - 50, 200 + 50);
+                if (ctx.bank().contains(item)) {
+                    ctx.bank().withdraw(amount, item);
+                } else {
+                    ctx.script().stop("You don't have " + item + " in your bank.");
+                }
+            } else if (!ctx.bank().isOpen()) {
+                ctx.bank().open();
+                Time.sleep(200, () -> ctx.bank().isOpen(), 1_000);
+            }
+        } else  if (!ctx.bank().isReachable()) {
+            ctx.webWalking().walkToBank();
+        }
+    }
 
     public boolean run() {
         ctx.script().stop("This task is not ready to be ran.");
@@ -33,6 +98,11 @@ public class Task {
     }
 
     // End
+
+    public void setStageCheck(int i) {
+        stageCheck = true;
+        stage = i;
+    }
 
 
     // Walking

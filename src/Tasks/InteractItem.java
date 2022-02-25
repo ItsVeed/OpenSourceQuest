@@ -12,8 +12,9 @@ public class InteractItem extends Task{
     boolean combine = false;
     String interaction;
 
-    public InteractItem(APIContext ctx, int id, String interaction) {
-        super(ctx);
+    public InteractItem(APIContext ctx, int stage, int id, String interaction) {
+        super(ctx, stage);
+
         this.firstId = id;
         this.interaction = interaction;
 

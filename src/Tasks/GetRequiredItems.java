@@ -9,8 +9,8 @@ public class GetRequiredItems extends Task{
     HashMap<String, Integer> requiredItems;
     boolean bypass = false;
 
-    public GetRequiredItems(APIContext ctx, HashMap<String, Integer> requiredItems) {
-        super(ctx);
+    public GetRequiredItems(APIContext ctx, int stage, HashMap<String, Integer> requiredItems) {
+        super(ctx, stage);
         this.requiredItems = requiredItems;
     }
 

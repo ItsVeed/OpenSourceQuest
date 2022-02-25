@@ -10,8 +10,8 @@ public class InteractObject extends Task{
     int id;
     String interaction;
 
-    public InteractObject(APIContext ctx,int id, String interaction) {
-        super(ctx);
+    public InteractObject(APIContext ctx, int stage, int id, String interaction) {
+        super(ctx, stage);
         this.id = id;
         this.interaction = interaction;
 

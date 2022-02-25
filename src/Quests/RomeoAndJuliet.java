@@ -6,14 +6,14 @@ import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.methods.IQuestAPI;
 import com.epicbot.api.shared.model.Area;
 
+import java.util.HashMap;
+
 public class RomeoAndJuliet extends Quest{
     public RomeoAndJuliet(APIContext ctx) {
         super(ctx);
 
         quest = IQuestAPI.Quest.ROMEO_AND_JULIET;
         name = "Romeo and juliet";
-
-        this.requiredItems.put("Cadava berries", 1);
 
         setupSteps();
     }
@@ -24,14 +24,15 @@ public class RomeoAndJuliet extends Quest{
         Area church = new Area(3253, 3483, 3256, 3480);
         Area potionShop = new Area(3193, 3405, 3197, 3403);
 
-        addPreStep(0, new GetRequiredItems(ctx, requiredItems));
+        HashMap<String, Integer> items = new HashMap<>();
+        items.put("Cadava berries", 1);
 
-        addStep(0, new Talk(ctx, 5037, new String[] {"Perhaps I could", "Yes", "Ok, thanks"}).setArea(varrockSquare));
-        addStep(10, new Talk(ctx, 5035).setArea(balcony));
-        addStep(20, new Talk(ctx, 5037, new String[] {"Ok, thanks"}).setArea(varrockSquare));
-        addStep(30, new Talk(ctx, 5038).setArea(church));
-        addStep(40, new Talk(ctx, 5036, new String[] {"Talk about something else.", "Talk about Romeo"}).setArea(potionShop));
-        addStep(50, new Talk(ctx, 5035).setArea(balcony));
-        addStep(60, new Talk(ctx, 5037).setArea(varrockSquare));
+        addStep(new Talk(ctx, 0, 5037, new String[] {"Perhaps I could", "Yes", "Ok, thanks"}).setArea(varrockSquare).setRequiredItems(items));
+        addStep( new Talk(ctx, 10, 5035).setArea(balcony));
+        addStep( new Talk(ctx, 20, 5037, new String[] {"Ok, thanks"}).setArea(varrockSquare));
+        addStep(new Talk(ctx, 30, 5038).setArea(church));
+        addStep(new Talk(ctx, 40, 5036, new String[] {"Talk about something else.", "Talk about Romeo"}).setArea(potionShop).setRequiredItems(items));
+        addStep(new Talk(ctx, 50, 5035).setArea(balcony));
+        addStep(new Talk(ctx, 60, 5037).setArea(varrockSquare));
     }
 }

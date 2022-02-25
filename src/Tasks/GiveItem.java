@@ -10,8 +10,9 @@ public class GiveItem extends Task{
     String item;
 
 
-    public GiveItem(APIContext ctx,int npcId, String item) {
-        super(ctx);
+    public GiveItem(APIContext ctx, int stage, int npcId, String item) {
+        super(ctx, stage);
+
         this.npcId = npcId;
         this.item = item;
     }

@@ -18,15 +18,15 @@ public class Talk extends Task{
 
     // Constuctor
 
-    public Talk(APIContext ctx, int id, String[] chatOptions) {
-        super(ctx);
+    public Talk(APIContext ctx, int stage, int id, String[] chatOptions) {
+        super(ctx, stage);
         this.id = id;
         this.chatOptions = chatOptions;
     }
 
     //Overload
-    public Talk(APIContext ctx, int id) {
-        super(ctx);
+    public Talk(APIContext ctx, int stage, int id) {
+        super(ctx, stage);
         this.id = id;
         this.chatOptions = new String[] {};
     }
@@ -49,57 +49,40 @@ public class Talk extends Task{
 
     // Dialogue methods
 
-    public void talkTo(int id, Area location, String[] chatOptions) {
+    public void talk(NPC n) {
         if (ctx.dialogues().isDialogueOpen()) {
             if (ctx.dialogues().canContinue()) {
                 ctx.dialogues().selectContinue();
-                Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 4_000);
+                Time.sleep(10_000, () -> ctx.dialogues().isDialogueOpen(), 4_000);
             }
             if (ctx.dialogues().getOptions() != null) {
                 handleOptions(chatOptions);
                 Time.sleep(100);
             }
             return;
+        } else {
+            if (!n.isVisible()) {
+                ctx.camera().turnTo(n);
+            }
+            n.interact("Talk-to");
+            Time.sleep(10_000, () -> ctx.dialogues().isDialogueOpen(), 1_000);
         }
+    }
+
+    public void talkTo(int id, Area location, String[] chatOptions) {
         NPC n = ctx.npcs().query().id(id).results().nearest();
         System.out.println(n);
         if (n != null) {
-            if (n != null) {
-                if (!n.isVisible()) {
-                    ctx.camera().turnTo(n);
-                }
-                n.interact("Talk-to");
-                Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 1_000);
-            }
+            talk(n);
         } else {
             walk(location);
         }
     }
 
     public void talkTo(int id, Tile tile, String[] chatOptions) {
-        if (ctx.dialogues().isDialogueOpen()) {
-            if (ctx.dialogues().canContinue()) {
-                ctx.dialogues().selectContinue();
-                Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 4_000);
-            }
-            if (ctx.dialogues().getOptions() != null) {
-                handleOptions(chatOptions);
-                Time.sleep(100);
-            }
-            return;
-        }
-
         NPC n = ctx.npcs().query().id(id).results().nearest();
-        System.out.println(n);
-        System.out.println(id);
         if (n != null) {
-            if (n != null) {
-                if (!n.isVisible()) {
-                    ctx.camera().turnTo(n);
-                }
-                n.interact("Talk-to");
-                Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen(), 1_000);
-            }
+            talk(n);
         } else {
             walk(tile);
         }

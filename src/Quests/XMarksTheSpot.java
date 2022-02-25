@@ -27,16 +27,15 @@ public class XMarksTheSpot extends Quest{
         Tile fourthSpot = new Tile(3077, 3261, 0);
         Tile dock = new Tile(3054, 3247, 0);
 
-        addPreStep(0, new PickupItem(ctx, spadeLocation, 952));
-
-        addStep(0, new Talk(ctx, 8484, new String[] {"I'm looking for a quest.", "Yes."}).setArea(lumbridgePub));
-        addStep(1, new Talk(ctx, 8484).setArea(lumbridgePub));
-        addStep(2, new InteractItem(ctx ,952, "Dig").setTile(firstSpot));
-        addStep(3, new InteractItem(ctx ,952, "Dig").setTile(secondSpot));
-        addStep(4, new InteractItem(ctx ,952, "Dig").setTile(thirdSpot));
-        addStep(5, new InteractItem(ctx ,952, "Dig").setTile(fourthSpot));
-        addStep(6, new Talk(ctx, 8484).setTile(dock));
-        addStep(7, new Talk(ctx, 8484).setTile(dock));
+        addStep(new PickupItem(ctx, 0, spadeLocation, 952));
+        addStep(new Talk(ctx, 0, 8484, new String[] {"I'm looking for a quest.", "Yes."}).setArea(lumbridgePub));
+        addStep(new Talk(ctx, 1, 8484).setArea(lumbridgePub));
+        addStep(new InteractItem(ctx , 2,952, "Dig").setTile(firstSpot));
+        addStep(new InteractItem(ctx , 3, 952, "Dig").setTile(secondSpot));
+        addStep(new InteractItem(ctx , 4, 952, "Dig").setTile(thirdSpot));
+        addStep(new InteractItem(ctx , 5,952, "Dig").setTile(fourthSpot));
+        addStep(new Talk(ctx, 6, 8484).setTile(dock));
+        addStep(new Talk(ctx, 7, 8484).setTile(dock));
 
     }
 }

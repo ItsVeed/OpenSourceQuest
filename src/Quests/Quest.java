@@ -6,8 +6,10 @@ import com.epicbot.api.shared.methods.IQuestAPI;
 import data.Vars;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class Quest {
     // Context
@@ -16,7 +18,6 @@ public class Quest {
 
     // Quest info
     IQuestAPI.Quest quest;
-    HashMap<String, Integer> requiredItems = new HashMap<>();
     // End
 
     // Public vars
@@ -40,16 +41,16 @@ public class Quest {
 
     // Step management
 
-    HashMap<Integer, Task> preSteps = new HashMap<>();
-    HashMap<Integer, Task> steps = new HashMap<>();
 
-    public void addPreStep(int i, Task task) {preSteps.put(i, task);}
-    public void addStep(int i, Task task) {steps.put(i, task);}
+//    HashMap<Integer, Task> steps = new HashMap<>();
+    List<Task> steps = new ArrayList();
+
+    public void addStep(Task task) {steps.add(task);}
     // End
 
     // Execute steps
 
-    Collection<Task> currentTasks = preSteps.values();
+    boolean init = true;
     public void main() {
         if (inCutscene()) {
             cutscene();
@@ -57,17 +58,18 @@ public class Quest {
             setDoQuest(false);
             Vars.currentQuest = null;
         } else {
-            if (!preSteps.isEmpty()) {
-                Task currentTask = currentTasks.iterator().next();
-                System.out.println(currentTask);
-                if (currentTask.run()) {
-                    currentTasks.remove(currentTask);
+            Task currentTask = steps.get(0);
+            System.out.println(currentTask);
+            if (currentTask.stageCheck == true) {
+                if (currentTask.stage < getStage(quest)) {
+                    steps.remove(0);
                 }
             } else {
-                Task currentTask = steps.get(getStage(quest));
-                System.out.println(currentTask);
-                currentTask.run();
+                if (currentTask.run()) {
+                    steps.remove(0);
+                }
             }
+
         }
     }
     // End

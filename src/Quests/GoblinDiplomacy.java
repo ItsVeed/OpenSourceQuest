@@ -17,29 +17,36 @@ public class GoblinDiplomacy extends Quest{
         quest = IQuestAPI.Quest.GOBLIN_DIPLOMACY;
         name = "Goblin diplomacy";
 
-        this.requiredItems.put("Orange dye", 1);
-        this.requiredItems.put("Goblin mail", 3);
-        this.requiredItems.put("Blue dye", 1);
-
         setupSteps();
     }
 
     private void setupSteps() {
         Area General_Hut =(new Area(2956, 3513, 2959, 3510));
 
-        HashMap<String, Integer> bypassItems = new HashMap<>();
-        bypassItems.put("Orange goblin mail", 1);
-        bypassItems.put("Goblin mail", 1);
-        bypassItems.put("Blue goblin mail", 1);
+        HashMap<String, Integer> items = new HashMap<>();
+        items.put("Blue dye", 1);
+        items.put("Goblin mail", 3);
+        items.put("Orange dye", 1);
 
-        addPreStep(0, new GetRequiredItems(ctx, requiredItems).bypass(bypassItems));
-        addPreStep(1, new InteractItem(ctx, 1767, "Use").combine(288));
-        addPreStep(2, new InteractItem(ctx, 1769, "Use").combine(288));
+        addStep( new InteractItem(ctx, 0, 1767, "Use").combine(288).setRequiredItems(items));
+        items.remove("Blue dye");
+        items.put("Goblin mail", 2);
 
-        addStep(0, new Talk(ctx, 669, new String[] {"Yes, Wartface looks fat", "Do you want me to pick an armour colour for you?",
-                "What about a different colour?"}).setArea(General_Hut));
-        addStep(3, new GiveItem(ctx, 669, "Orange goblin mail").setArea(General_Hut));
-        addStep(4, new GiveItem(ctx, 669, "Blue goblin mail").setArea(General_Hut));
-        addStep(5, new GiveItem(ctx,669, "Goblin mail").setArea(General_Hut));
+        addStep( new InteractItem(ctx, 0, 1769, "Use").combine(288).setRequiredItems(items));
+
+        items.clear();
+        items.put("Orange goblin mail", 1);
+        items.put("Goblin mail", 1);
+        items.put("Blue goblin mail", 1);
+        addStep( new Talk(ctx, 0, 669, new String[] {"So how is life for the goblins?", "Yes, Wartface looks fat", "Do you want me to pick an armour colour for you?",
+                "What about a different colour?", "I have some orange armour here"}).setArea(General_Hut).setRequiredItems(items));
+
+        addStep( new GiveItem(ctx, 3, 669, "Orange goblin mail").setArea(General_Hut).setRequiredItems(items));
+        items.remove("Orange goblin mail");
+
+        addStep( new GiveItem(ctx, 4, 669, "Blue goblin mail").setArea(General_Hut).setRequiredItems(items));
+        items.remove("Blue goblin mail");
+
+        addStep( new GiveItem(ctx, 5,669, "Goblin mail").setArea(General_Hut).setRequiredItems(items));
     }
 }

@@ -7,9 +7,11 @@ import com.epicbot.api.shared.util.time.Time;
 
 public class PickupItem extends Task{
     int id;
+    boolean checkItem = false;
+    int checkItemId;
 
-    public PickupItem(APIContext ctx, Area location, int id) {
-        super(ctx);
+    public PickupItem(APIContext ctx, int stage, Area location, int id) {
+        super(ctx, stage);
 
         this.location = location;
         this.id = id;
@@ -33,7 +35,7 @@ public class PickupItem extends Task{
                 ctx.camera().turnTo(i);
             }
             if (i.interact("Take")) {
-                Time.sleep(1_000, () -> ctx.inventory().contains(item), 1_000);
+                Time.sleep(6_000, () -> ctx.inventory().contains(item), 1_000);
             }
         } else if (!location.contains(ctx.localPlayer().getLocation())) {
             walk(location);
