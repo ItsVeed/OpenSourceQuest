@@ -6,7 +6,6 @@ import com.epicbot.api.shared.util.time.Time;
 import java.util.HashMap;
 
 public class GetRequiredItems extends Task{
-    HashMap<String, Integer> requiredItems;
     boolean bypass = false;
 
     public GetRequiredItems(APIContext ctx, int stage, HashMap<String, Integer> requiredItems) {

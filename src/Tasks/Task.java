@@ -52,20 +52,21 @@ public class Task {
     }
 
     private boolean getItems() {
-        {
+        {   System.out.println(requiredItems.keySet());
             for (String i : requiredItems.keySet()) {
+                System.out.println("Loop");
                 if (ctx.inventory().getCount(i) < requiredItems.get(i)) {
                     withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
                 }
             }
-            return !hasAllItems(requiredItems);
+            return hasAllItems(requiredItems);
         }
     }
 
     private boolean hasAllItems(HashMap<String, Integer> items) {
         boolean missingItem = false;
         for (String i : items.keySet()) {
-            if (ctx.inventory().getCount(i) < items.get(i)) {
+            if (!ctx.inventory().contains(i)) {
                 missingItem = true;
             }
         }
