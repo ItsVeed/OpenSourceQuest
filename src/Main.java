@@ -38,12 +38,7 @@ public class Main extends LoopScript {
 
         ctx = getAPIContext();
 
-        Vars.quests = new Quest[]
-                {
-                        new RomeoAndJuliet(ctx),
-                        new GoblinDiplomacy(ctx),
-                        new XMarksTheSpot(ctx),
-                };
+        Vars.initialiseQuests(ctx);
 
         Vars.quests[0].setDoQuest(true);
         Vars.quests[1].setDoQuest(true);

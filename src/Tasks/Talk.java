@@ -57,7 +57,7 @@ public class Talk extends Task{
             }
             if (ctx.dialogues().getOptions() != null) {
                 handleOptions(chatOptions);
-                Time.sleep(100);
+                Time.sleep(1_000);
             }
             return;
         } else {
@@ -71,7 +71,6 @@ public class Talk extends Task{
 
     public void talkTo(int id, Area location, String[] chatOptions) {
         NPC n = ctx.npcs().query().id(id).results().nearest();
-        System.out.println(n);
         if (n != null) {
             talk(n);
         } else {
@@ -92,13 +91,14 @@ public class Talk extends Task{
         String bestOption = getBestDialogOption(chatOptions);
         if(bestOption != null) {
             ctx.dialogues().selectOption(bestOption);
+            Time.sleep(5_000, () -> !ctx.dialogues().isLoading() || !ctx.dialogues().isDialogueOpen());
         }
     }
 
     protected String getBestDialogOption(String[] dialogOptions){
         for(String chat : dialogOptions){
             for(WidgetChild option : ctx.dialogues().getOptions()){
-                if(option.getText().contains(chat)){
+                if(option.getText().equals(chat)){
                     return chat;
                 }
             }

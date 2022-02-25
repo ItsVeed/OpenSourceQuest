@@ -52,15 +52,16 @@ public class Quest {
 
     boolean init = true;
     public void main() {
-        if (inCutscene()) {
-            cutscene();
-        } else if (ctx.quests().isCompleted(quest)) {
+        if (ctx.quests().isCompleted(quest)) {
             setDoQuest(false);
             Vars.currentQuest = null;
         } else {
             Task currentTask = steps.get(0);
-            System.out.println(currentTask);
-            if (currentTask.stageCheck) {
+            if (inCutscene()) {
+                cutscene();
+            } else if (currentTask.stageCheck) {
+                System.out.println(steps);
+                System.out.println(currentTask);
                 if (currentTask.stage < getStage(quest)) {
                     steps.remove(0);
                 } else {

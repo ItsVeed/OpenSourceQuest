@@ -26,6 +26,8 @@ public class InteractItem extends Task{
             interactItem(tile, firstId, interaction);
         } else if (location != null) {
             interactItem(location, firstId, interaction);
+        } else {
+            interact();
         }
         return true;
     }
@@ -39,12 +41,17 @@ public class InteractItem extends Task{
     }
 
     public void interact() {
+        if (ctx.bank().isOpen()) {
+            ctx.bank().close();
+        }
         ItemWidget x = ctx.inventory().getItem(firstId);
         if (x != null && x.interact(interaction)) {
             if (combine) {
                 ItemWidget y = ctx.inventory().getItem(secondId);
                 if (y != null) {
-                    y.click();
+                    if (y.click()) {
+                        Time.sleep(1_500);
+                    }
                 }
             }
             Time.sleep(5_000, () -> !ctx.localPlayer().isAnimating() && !ctx.localPlayer().isMoving(), 3_000);

@@ -35,10 +35,7 @@ public class GetRequiredItems extends Task{
         }
     }
 
-    public Task bypass(HashMap<String, Integer> items) {
-        bypass = hasAllItems(items);
-        return this;
-    }
+
 
     private boolean hasAllItems(HashMap<String, Integer> items) {
         boolean missingItem = false;

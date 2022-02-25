@@ -19,14 +19,18 @@ public class GiveItem extends Task{
 
     @Override public boolean run() {
         giveItem();
-        return true;
+        if (ctx.inventory().contains(item)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void giveItem() {
         NPC npc = ctx.npcs().query().id(npcId).reachable().results().nearest();
         if (npc != null) {
             if (!ctx.dialogues().isDialogueOpen()) {
-                if (ctx.inventory().contains(286)) {
+                if (ctx.inventory().contains(item)) {
                     ctx.inventory().interactItem("Use", item);
                     npc.interact("Use");
                     Time.sleep(1_000, () -> ctx.dialogues().isDialogueOpen());

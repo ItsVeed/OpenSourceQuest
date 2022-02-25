@@ -20,6 +20,7 @@ public class Task {
     // Task vars
 
     HashMap<String, Integer> requiredItems = new HashMap<>();
+    boolean bypass = false;
 
     boolean localWalker = false;
     Area location = null;
@@ -51,19 +52,25 @@ public class Task {
         return this;
     }
 
-    private boolean getItems() {
-        {   System.out.println(requiredItems.keySet());
+    public Task bypass(HashMap<String, Integer> items) {
+        bypass = !missingItems(items);
+        return this;
+    }
+
+    public boolean getItems() {
+        if (bypass) {
+            return true;
+        } else {
             for (String i : requiredItems.keySet()) {
-                System.out.println("Loop");
                 if (ctx.inventory().getCount(i) < requiredItems.get(i)) {
                     withdraw(i, requiredItems.get(i) - ctx.inventory().getCount(i));
                 }
             }
-            return hasAllItems(requiredItems);
+            return !missingItems(requiredItems);
         }
     }
 
-    private boolean hasAllItems(HashMap<String, Integer> items) {
+    private boolean missingItems(HashMap<String, Integer> items) {
         boolean missingItem = false;
         for (String i : items.keySet()) {
             if (!ctx.inventory().contains(i)) {
@@ -100,8 +107,8 @@ public class Task {
     // End
 
     public void setStageCheck(int i) {
-        stageCheck = true;
-        stage = i;
+        this.stageCheck = true;
+        this.stage = i;
     }
 
 
@@ -124,7 +131,7 @@ public class Task {
     }
 
     public Task localWalker() {
-        localWalker = true;
+        this.localWalker = true;
         return this;
     }
 
