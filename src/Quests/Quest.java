@@ -60,13 +60,13 @@ public class Quest {
         } else {
             Task currentTask = steps.get(0);
             System.out.println(currentTask);
-            if (currentTask.stageCheck == true) {
+            if (currentTask.stageCheck) {
                 if (currentTask.stage < getStage(quest)) {
                     steps.remove(0);
-                }
-            } else {
-                if (currentTask.run()) {
-                    steps.remove(0);
+                } else {
+                    if (currentTask.main()) {
+                        steps.remove(0);
+                    }
                 }
             }
 
