@@ -1,7 +1,3 @@
-import Quests.GoblinDiplomacy;
-import Quests.Quest;
-import Quests.RomeoAndJuliet;
-import Quests.XMarksTheSpot;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.GameType;
 import com.epicbot.api.shared.script.LoopScript;
@@ -11,10 +7,13 @@ import data.Vars;
 @ScriptManifest(name="Quester", gameType = GameType.OS)
 public class Main extends LoopScript {
     public static APIContext ctx;
+    private boolean checkedSettings = false;
     
     @Override
     protected int loop() {
-
+        if (!ctx.client().isLoggedIn()) {
+            return 0;
+        }
 
         if (Vars.currentQuest == null) {
             for (int i=0; i < Vars.quests.length; i++) {

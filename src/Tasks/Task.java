@@ -42,8 +42,11 @@ public class Task {
 
     public boolean main() {
         if (skip) {
+            System.out.println("Skip");
+            System.out.println(skip);
             return true;
-        } else if (getItems()) {
+        }
+        if (getItems()) {
              return run();
         } else {
              return false;
@@ -56,12 +59,12 @@ public class Task {
     }
 
     public Task bypass(HashMap<String, Integer> items) {
-        bypass = !missingItems(items);
+        this.bypass = !missingItems(items);
         return this;
     }
 
     public Task skipIfHasItems(HashMap<String, Integer> items) {
-        skip = !missingItems(items);
+        this.skip = !missingItems(items);
         return this;
     }
 
