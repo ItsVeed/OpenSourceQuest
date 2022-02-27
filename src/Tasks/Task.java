@@ -38,35 +38,28 @@ public class Task {
 
     // End
 
-    // Main method
+    // Main methods
 
     public boolean main() {
-        if (skip) {
+        if (this.skip) {
             System.out.println("Skip");
-            System.out.println(skip);
+            System.out.println(this.skip);
             return true;
-        }
-        if (getItems()) {
+        } else if (getItems()) {
              return run();
         } else {
              return false;
         }
     }
 
-    public Task setRequiredItems(HashMap<String, Integer> requiredItems) {
-        this.requiredItems = requiredItems;
-        return this;
+    public boolean run() {
+        ctx.script().stop("This task is not ready to be ran.");
+        return true;
     }
 
-    public Task bypass(HashMap<String, Integer> items) {
-        this.bypass = !missingItems(items);
-        return this;
-    }
+    // End
 
-    public Task skipIfHasItems(HashMap<String, Integer> items) {
-        this.skip = !missingItems(items);
-        return this;
-    }
+    // Items
 
     public boolean getItems() {
             if (bypass) {
@@ -110,17 +103,17 @@ public class Task {
         }
     }
 
-    public boolean run() {
-        ctx.script().stop("This task is not ready to be ran.");
-        return true;
-    }
-
     // End
+
+
+    // Stage
 
     public void setStageCheck(int i) {
         this.stageCheck = true;
         this.stage = i;
     }
+
+    // End
 
 
     // Walking
@@ -141,15 +134,30 @@ public class Task {
         }
     }
 
+    // End
+
+
+    // Var methods
+
     public Task localWalker() {
         this.localWalker = true;
         return this;
     }
 
-    // End
+    public Task setRequiredItems(HashMap<String, Integer> requiredItems) {
+        this.requiredItems = requiredItems;
+        return this;
+    }
 
+    public Task bypass(HashMap<String, Integer> items) {
+        this.bypass = !missingItems(items);
+        return this;
+    }
 
-    // Var methods
+    public Task skipIfHasItems(HashMap<String, Integer> items) {
+        this.skip = !missingItems(items);
+        return this;
+    }
 
     public Task setArea(Area location) {
 
