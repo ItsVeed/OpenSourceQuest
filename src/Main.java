@@ -7,7 +7,7 @@ import data.Vars;
 @ScriptManifest(name="VeedsQuester", gameType = GameType.OS)
 public class Main extends LoopScript {
     public static APIContext ctx;
-    private boolean checkedSettings = false;
+    Gui gui;
     
     @Override
     protected int loop() {
@@ -21,7 +21,7 @@ public class Main extends LoopScript {
 
         if (Vars.currentQuest == null) {
             for (int i=0; i < Vars.quests.length; i++) {
-                if (Vars.quests[i].getDoQuest() == true) {
+                if (Vars.quests[i].getDoQuest()) {
                     Vars.currentQuest = Vars.quests[i];
                 }
             }
@@ -43,8 +43,15 @@ public class Main extends LoopScript {
 
         Vars.initialiseQuests(ctx);
 
-        Gui gui = new Gui(getAPIContext());
+        gui = new Gui(getAPIContext());
 
         return true;
+    }
+
+    @Override
+    public void onStop() {
+        if (gui != null) {
+            gui.dispose();
+        }
     }
 }

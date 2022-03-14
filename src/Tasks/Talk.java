@@ -16,7 +16,7 @@ public class Talk extends Task{
 
     // End
 
-    // Constuctor
+    // Constructor
 
     public Talk(APIContext ctx, int stage, int id, String[] chatOptions) {
         super(ctx, stage);
@@ -38,9 +38,9 @@ public class Talk extends Task{
     @Override
     public boolean run() {
         if (tile != null) {
-            talkTo(id, tile, chatOptions);
+            talkTo(id, tile);
         } else if (location != null) {
-            talkTo(id, location, chatOptions);
+            talkTo(id, location);
         }
         return false;
     }
@@ -59,7 +59,6 @@ public class Talk extends Task{
                 handleOptions(chatOptions);
                 Time.sleep(1_000);
             }
-            return;
         } else {
             if (!n.isVisible()) {
                 ctx.camera().turnTo(n);
@@ -69,7 +68,7 @@ public class Talk extends Task{
         }
     }
 
-    public void talkTo(int id, Area location, String[] chatOptions) {
+    public void talkTo(int id, Area location) {
         NPC n = ctx.npcs().query().id(id).results().nearest();
         if (n != null) {
             talk(n);
@@ -78,7 +77,7 @@ public class Talk extends Task{
         }
     }
 
-    public void talkTo(int id, Tile tile, String[] chatOptions) {
+    public void talkTo(int id, Tile tile) {
         NPC n = ctx.npcs().query().id(id).results().nearest();
         if (n != null) {
             talk(n);
