@@ -14,13 +14,14 @@ public class Task {
 
     // End
 
+    // Task vars
+
     public boolean stageCheck = false;
     public int stage;
 
-    // Task vars
-
     HashMap<String, Integer> requiredItems = new HashMap<>();
     boolean bypass = false;
+
     boolean skip = false;
 
     boolean localWalker = false;
@@ -41,6 +42,7 @@ public class Task {
     // Main methods
 
     public boolean main() {
+        System.out.println(this.skip);
         if (this.skip) {
             System.out.println("Skip");
             System.out.println(this.skip);

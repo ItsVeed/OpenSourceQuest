@@ -4,13 +4,17 @@ import com.epicbot.api.shared.script.LoopScript;
 import com.epicbot.api.shared.script.ScriptManifest;
 import data.Vars;
 
-@ScriptManifest(name="Quester", gameType = GameType.OS)
+@ScriptManifest(name="VeedsQuester", gameType = GameType.OS)
 public class Main extends LoopScript {
     public static APIContext ctx;
     private boolean checkedSettings = false;
     
     @Override
     protected int loop() {
+        if (!Vars.start) {
+            return 0;
+        }
+
         if (!ctx.client().isLoggedIn()) {
             return 0;
         }
@@ -39,9 +43,7 @@ public class Main extends LoopScript {
 
         Vars.initialiseQuests(ctx);
 
-        Vars.quests[0].setDoQuest(true);
-        Vars.quests[1].setDoQuest(true);
-        Vars.quests[2].setDoQuest(true);
+        Gui gui = new Gui(getAPIContext());
 
         return true;
     }
