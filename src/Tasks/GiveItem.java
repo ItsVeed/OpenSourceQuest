@@ -17,7 +17,8 @@ public class GiveItem extends Task{
         this.item = item;
     }
 
-    @Override public boolean run() {
+    @Override
+    public boolean run() {
         giveItem();
         if (ctx.inventory().contains(item)) {
             return false;

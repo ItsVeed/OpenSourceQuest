@@ -3,6 +3,7 @@ package Quests;
 import Tasks.GiveItem;
 import Tasks.InteractItem;
 import Tasks.Talk;
+import Tasks.Task;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.methods.IQuestAPI;
 import com.epicbot.api.shared.model.Area;
