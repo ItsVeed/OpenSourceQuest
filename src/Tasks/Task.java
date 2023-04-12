@@ -1,5 +1,6 @@
 package Tasks;
 
+import Quests.Quest;
 import com.epicbot.api.shared.APIContext;
 import com.epicbot.api.shared.model.Area;
 import com.epicbot.api.shared.model.Tile;
@@ -32,8 +33,8 @@ public class Task {
 
     //Constructor
 
-    public Task(APIContext ctx, int stage) {
-        this.ctx = ctx;
+    public Task(Quest quest, int stage) {
+        this.ctx = quest.ctx;
         setStageCheck(stage);
     }
 

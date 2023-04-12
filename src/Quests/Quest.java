@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Quest {
     // Context
-    APIContext ctx;
+    public APIContext ctx;
     // End
 
     // Quest info
